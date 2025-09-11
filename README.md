@@ -1,71 +1,95 @@
-# 📌 Relatório Parcial do Projeto – Snack Lirio
+# 🍔 Snack Lirio
 
-## Estrutura do Projeto
+Sua comida interna, de forma rápida e prática!
+Um sistema inspirado no iFood, feito para facilitar os pedidos dentro do internato, conectando alunos, mercearias e restaurantes locais.
 
-O projeto Snack Lirio foi desenvolvido com uma arquitetura dividida em frontend e backend, de forma a garantir organização, escalabilidade e facilidade de manutenção.
+## 📌 Visão Geral
 
-### Raiz do Projeto
+O Snack Lirio é um projeto de TCC desenvolvido no curso técnico em Informática.
+O sistema foi planejado para permitir que alunos façam pedidos online de forma simples, prática e eficiente, utilizando tecnologias modernas no frontend e backend.
 
-- `.gitignore`: Configurado para ignorar arquivos e pastas desnecessárias no repositório.
-- Scripts (`.sh` e `.bat`): Criados para facilitar a instalação e execução do sistema, permitindo inicialização rápida.
+## 🛠️ Tecnologias Utilizadas
 
-### Frontend (snack-lirio/src)
+### Frontend
 
-O frontend foi construído utilizando React, com o auxílio do Vite para otimizar o ambiente de desenvolvimento, Tailwind CSS para estilização responsiva e TypeScript para maior segurança no código.
+- ⚛️ React + Vite
+- 🎨 Tailwind CSS (estilização responsiva)
+- 🔗 React Router DOM (navegação)
+- 🌐 Axios (requisições para API)
+- 🟦 TypeScript (tipagem segura)
 
-#### Estrutura principal:
+### Backend
 
-- `App.tsx`: Arquivo principal da aplicação.
-- `index.css`: Estilos globais do sistema.
-- `components/`: Componentes reutilizáveis (ex.: Header, Footer, Layout).
-- `pages/`: Páginas principais (Home, Login, Register).
-- `routes/`: Arquivos responsáveis pelo gerenciamento das rotas (AppRoutes.tsx, index.tsx).
-- `contexts/`: Contexto de autenticação (AuthContext.tsx), responsável pelo gerenciamento de sessão do usuário.
+- 🟢 Node.js
+- 🚀 Express (rotas e API)
+- 🗄️ Prisma (ORM para banco de dados)
+- 🐬 MySQL (banco de dados – planejado para o 3º bimestre)
 
-### Backend (snack-lirio/backend/src)
+### Outros
 
-O backend foi desenvolvido em Node.js, utilizando o Prisma ORM para modelagem e manipulação do banco de dados.
+- 🐙 Git + GitHub (versionamento e hospedagem do código)
+- ⚡ Scripts automáticos para setup (Windows/Linux)
 
-#### Estrutura principal:
+## 📂 Estrutura do Projeto
 
-- `prisma/schema.prisma`: Define a modelagem do banco de dados.
-- Rotas e Middlewares: Responsáveis pelo controle das funcionalidades e regras de negócio.
-- `package.json`: Gerencia as dependências e scripts do backend.
+```
+snack-lirio/
+│── backend/        # API com Node.js + Prisma
+│── src/            # Código fonte do frontend
+│   ├── components/ # Componentes reutilizáveis
+│   ├── contexts/   # Contextos globais (ex.: autenticação)
+│   ├── pages/      # Páginas principais (Home, Login, Cadastro, etc.)
+│   └── routes/     # Configuração das rotas
+│── prisma/         # Modelagem do banco de dados
+│── package.json    # Dependências e scripts
+│── README.md       # Documentação principal
+```
 
-## O que já foi implementado
+## 🚧 O que já foi feito
 
-- ✅ Criação do repositório GitHub e versionamento do projeto.
-- ✅ Configuração inicial com React, Vite, Tailwind CSS e TypeScript.
-- ✅ Estruturação do backend utilizando Prisma para o banco de dados.
-- ✅ Implementação inicial de páginas no frontend e configuração de rotas.
-- ✅ Criação de contexto de autenticação para login e gerenciamento de sessão.
-- ✅ Desenvolvimento de componentes básicos (Layout, Header, Footer).
-- ✅ Configuração de scripts automáticos para facilitar a instalação e execução.
+✅ Criação do repositório GitHub e configuração inicial
+✅ Frontend estruturado com React, Vite, Tailwind e TypeScript
+✅ Backend iniciado com Node.js + Prisma
+✅ Criação de componentes principais (Header, Footer, Layout)
+✅ Páginas principais: Home, Login, Cadastro
+✅ Rotas implementadas com React Router
+✅ Contexto de autenticação (AuthContext)
 
-## Próximos Passos
+## 🎯 Próximos Passos
 
-### Implementações Pendentes
+🔲 Criar páginas adicionais (Carrinho, Sobre, Perfil)
+🔲 Conectar frontend ao backend com Axios
+🔲 Finalizar banco de dados com Prisma + MySQL
+🔲 Implementar fluxo completo (Cadastro → Login → Pedido → Carrinho → Checkout)
+🔲 Refinar design com base no protótipo do Figma/Plasmic
 
-1. Implementar páginas adicionais:
-   - Carrinho
-   - Sobre
-   - Perfil
+## 🚀 Como Rodar o Projeto
 
-2. Conectar frontend e backend utilizando Axios.
+Clone o repositório:
+```bash
+git clone https://github.com/alicelirio/snacklirio.git
+cd snacklirio
+```
 
-3. Finalizar modelagem e implementação do banco de dados no Prisma:
-   - Usuários
-   - Pedidos
-   - Produtos
+### 🔹 Frontend
+```bash
+cd src
+npm install
+npm run dev
+```
 
-### Testes do Sistema
+### 🔹 Backend
+```bash
+cd backend
+npm install
+npm run dev
+```
 
-Testar fluxo completo do sistema:
-- Cadastro/Login
-- Seleção de produtos
-- Adição ao carrinho
-- Finalização do pedido
+Acesse no navegador:
+👉 http://localhost:5173 (frontend)
+👉 http://localhost:3000 (backend)
 
-### Design
+## 👩‍💻 Autora
 
-- Refinar o design utilizando os protótipos do Figma integrados ao Plasmic.
+Alice Lírio Madalena
+💻 Projeto desenvolvido como parte do TCC do curso Técnico em Informática (3º ano do ensino médio)
