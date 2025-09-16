@@ -1,18 +1,85 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
 const app = express();
-
-app.use(cors());
-app.use(express.json());
-
+const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.json({ message: 'API Snack Lírio' });
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
+
+app.use(express.json());
+
+// Rota de registro
+app.post('/auth/register', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const userExists = await prisma.user.findUnique({ where: { email } });
+    if (userExists) {
+      return res.status(400).json({ error: 'Email já cadastrado' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        type: 'cliente'
+      },
+    });
+
+    const token = jwt.sign(
+      { id: user.id },
+      process.env.JWT_SECRET || 'secret',
+      { expiresIn: '1d' }
+    );
+
+    const { password: _, ...userWithoutPassword } = user;
+    return res.status(201).json({ user: userWithoutPassword, token });
+  } catch (error) {
+    console.error('Erro ao registrar:', error);
+    return res.status(500).json({ error: 'Erro ao cadastrar usuário' });
+  }
+});
+
+// Rota de login
+app.post('/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      return res.status(401).json({ error: 'Credenciais inválidas' });
+    }
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ error: 'Credenciais inválidas' });
+    }
+
+    const token = jwt.sign(
+      { id: user.id },
+      process.env.JWT_SECRET || 'secret',
+      { expiresIn: '1d' }
+    );
+
+    const { password: _, ...userWithoutPassword } = user;
+    return res.json({ user: userWithoutPassword, token });
+  } catch (error) {
+    console.error('Erro ao fazer login:', error);
+    return res.status(500).json({ error: 'Erro ao fazer login' });
+  }
 });
 
 app.listen(PORT, () => {
