@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import productsRouter from './routes/products';
+import ordersRouter from './routes/orders';
 
 dotenv.config();
 
@@ -17,6 +19,9 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+app.use('/products', productsRouter);
+app.use('/orders', ordersRouter);
 
 // Rota de registro
 app.post('/auth/register', async (req, res) => {

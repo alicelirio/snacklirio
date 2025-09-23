@@ -8,27 +8,44 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(uuid())
-  name     String
-  email    String   @unique
-  password String
-  type     String   // 'admin' | 'fornecedor' | 'cliente'
-  createdAt DateTime @default(now())
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  type      String    // 'admin' | 'fornecedor' | 'cliente'
+  products  Product[]
+  orders    Order[]
+  createdAt DateTime  @default(now())
 }
 
 model Product {
-  id          String   @id @default(uuid())
+  id          String       @id @default(uuid())
   name        String
   description String
   price       Float
   image       String?
+  supplier    User        @relation(fields: [supplierId], references: [id])
   supplierId  String
-  createdAt   DateTime @default(now())
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
 }
 
 model Order {
-  id        String   @id @default(uuid())
+  id        String      @id @default(uuid())
+  user      User        @relation(fields: [userId], references: [id])
   userId    String
-  status    String
-  createdAt DateTime @default(now())
+  status    String      // 'pending' | 'processing' | 'completed' | 'cancelled'
+  total     Float       @default(0)
+  items     OrderItem[]
+  createdAt DateTime    @default(now())
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int
+  price     Float    // Preço no momento da compra
 }

@@ -30,6 +30,20 @@ export default function Header() {
             {user ? (
               <>
                 <Link 
+                  to="/products" 
+                  className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Produtos
+                </Link>
+                {(user.type === 'ADMIN' || user.type === 'SUPPLIER') && (
+                  <Link 
+                    to="/admin" 
+                    className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Área Administrativa
+                  </Link>
+                )}
+                <Link 
                   to="/cart" 
                   className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
                 >
