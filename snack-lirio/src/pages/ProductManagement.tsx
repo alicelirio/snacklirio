@@ -24,6 +24,7 @@ export default function ProductManagement() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   useAuth();
   
@@ -77,6 +78,7 @@ export default function ProductManagement() {
 
       setFormData(initialFormData);
       setIsEditing(false);
+      setShowForm(false);
       setSelectedProduct(null);
       loadProducts();
     } catch (err) {
@@ -107,6 +109,15 @@ export default function ProductManagement() {
         imagePreview: product.image || ''
       });
     setIsEditing(true);
+    setShowForm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCancel = () => {
+    setFormData(initialFormData);
+    setIsEditing(false);
+    setShowForm(false);
+    setSelectedProduct(null);
   };
 
   if (loading) {
@@ -114,8 +125,21 @@ export default function ProductManagement() {
   }
 
   return (
-  <div className="container mx-auto px-4 py-8 max-w-5xl">
-      <h1 className="text-2xl font-bold mb-6">Gerenciar Produtos</h1>
+    <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <h1 className="text-2xl font-bold">Gerenciar Produtos</h1>
+        {!showForm && (
+          <button
+            onClick={() => setShowForm(true)}
+            className="bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-700 flex items-center gap-2 font-medium"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Adicionar Produto
+          </button>
+        )}
+      </div>
 
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -123,75 +147,91 @@ export default function ProductManagement() {
         </div>
       )}
 
-  <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-6 sm:px-8 pt-6 pb-8 mb-6">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Nome do Produto
-          </label>
-          <input
-            type="text"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
+      {showForm && (
+        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-6 sm:px-8 pt-6 pb-8 mb-6">
+          <h2 className="text-xl font-semibold mb-4">
+            {isEditing ? 'Editar Produto' : 'Novo Produto'}
+          </h2>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Nome do Produto
+            </label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
+            />
+          </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Descrição
-          </label>
-          <textarea
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Descrição
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              rows={3}
+              required
+            />
+          </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Preço
-          </label>
-          <input
-            type="number"
-            step="0.01"
-            value={formData.price}
-            onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Preço
+            </label>
+            <input
+              type="number"
+              step="0.01"
+              value={formData.price}
+              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
+            />
+          </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Imagem do Produto
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files?.[0] || null;
-              setFormData({ ...formData, imageFile: file, imagePreview: file ? URL.createObjectURL(file) : '' });
-            }}
-            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-          />
-          {(formData.imagePreview) && (
-            <img src={formData.imagePreview} alt="Pré-visualização" className="mt-2 h-32 object-cover rounded" />
-          )}
-        </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Imagem do Produto
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0] || null;
+                setFormData({ ...formData, imageFile: file, imagePreview: file ? URL.createObjectURL(file) : '' });
+              }}
+              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+            />
+            {(formData.imagePreview) && (
+              <img src={formData.imagePreview} alt="Pré-visualização" className="mt-2 h-32 object-cover rounded" />
+            )}
+          </div>
 
-        <button
-          type="submit"
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-        >
-          {isEditing ? 'Atualizar Produto' : 'Adicionar Produto'}
-        </button>
-      </form>
+          <div className="flex gap-3">
+            <button
+              type="submit"
+              className="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 font-medium"
+            >
+              {isEditing ? 'Atualizar Produto' : 'Adicionar Produto'}
+            </button>
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 font-medium"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      )}
 
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-4">Seus Produtos</h2>
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
             <div key={product.id} className="bg-white shadow-md rounded-lg p-4">
               {product.image && (
