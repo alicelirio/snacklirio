@@ -22,9 +22,9 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
-        <h2 className="text-center text-3xl font-bold">Login</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="max-w-md w-full space-y-8 p-6 sm:p-8 bg-white rounded-lg shadow">
+        <h2 className="text-center text-2xl sm:text-3xl font-bold">Login</h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <input
             type="email"
@@ -45,10 +45,8 @@ export default function Login() {
           )}
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white p-2 rounded hover:bg-indigo-700 transition-colors"
-          >
-            Entrar
-          </button>
+            className="w-full bg-indigo-600 text-white p-3 rounded hover:bg-indigo-700 transition-colors text-sm font-medium"
+          >Entrar</button>
         </form>
       </div>
     </div>

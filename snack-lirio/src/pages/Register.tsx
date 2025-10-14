@@ -57,9 +57,9 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
-        <h2 className="text-center text-3xl font-bold">Cadastro</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="max-w-md w-full space-y-8 p-6 sm:p-8 bg-white rounded-lg shadow">
+        <h2 className="text-center text-2xl sm:text-3xl font-bold">Cadastro</h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -97,14 +97,6 @@ export default function Register() {
             placeholder="Confirme sua senha"
             className="w-full p-2 border rounded"
           />
-          <select
-            value={userType}
-            onChange={(e) => setUserType(e.target.value)}
-            className="w-full p-2 border rounded"
-          >
-            <option value="cliente">Cliente</option>
-            <option value="fornecedor">Fornecedor</option>
-          </select>
           
           {error && (
             <p className="text-red-500 text-sm text-center">{error}</p>
@@ -119,8 +111,8 @@ export default function Register() {
             {loading ? 'Cadastrando...' : 'Cadastrar'}
           </button>
 
-          <div className="text-center mt-4">
-            <Link to="/login" className="text-indigo-600 hover:text-indigo-800">
+          <div className="text-center mt-2">
+            <Link to="/login" className="text-indigo-600 hover:text-indigo-800 text-sm">
               Já tem uma conta? Faça login
             </Link>
           </div>
