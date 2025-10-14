@@ -3,6 +3,7 @@ import { AppRoutes } from './routes'
 import { AuthProvider } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
 import Layout from './components/Layout'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Layout>
             <AppRoutes />
           </Layout>
+          <Toaster position="top-right"/> 
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>

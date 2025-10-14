@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import api from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -45,6 +46,7 @@ export function AdminPage() {
       setOrders(response.data);
     } catch (error) {
       console.error('Erro ao carregar pedidos:', error);
+  toast.error('Erro ao carregar pedidos');
     }
   };
 
@@ -54,6 +56,7 @@ export function AdminPage() {
       setStats(response.data);
     } catch (error) {
       console.error('Erro ao carregar estatísticas:', error);
+  toast.error('Erro ao carregar estatísticas');
     }
   };
 
@@ -66,13 +69,25 @@ export function AdminPage() {
     { value: 'delivered', label: 'Entregue' },
   ];
 
+  const statusBadge = (status: string) => {
+    const map: Record<string, string> = {
+      pending: 'bg-yellow-100 text-yellow-800',
+      processing: 'bg-blue-100 text-blue-800',
+      shipped: 'bg-purple-100 text-purple-800',
+      delivered: 'bg-green-100 text-green-800',
+    };
+    const text = statusOptions.find(s => s.value === status)?.label || status;
+    return <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${map[status] || 'bg-gray-100 text-gray-800'}`}>{text}</span>;
+  };
+
   const handleUpdateStatus = async (orderId: string, status: string) => {
     try {
-      await api.patch(`/orders/${orderId}/status`, { status });
+  await api.patch(`/orders/${orderId}/status`, { status });
+  toast.success('Status atualizado com sucesso');
       await Promise.all([loadOrders(), loadStats()]);
     } catch (error) {
       console.error('Erro ao atualizar status do pedido:', error);
-      alert('Não foi possível atualizar o status.');
+  toast.error('Não foi possível atualizar o status');
     }
   };
 
@@ -130,11 +145,12 @@ export function AdminPage() {
                     <td className="px-4 py-3 text-sm text-gray-900">#{order.id.slice(0,8)}</td>
                     <td className="px-4 py-3 text-sm text-gray-700">{order.user?.name || '-'}</td>
                     <td className="px-4 py-3 text-sm text-gray-900">R$ {Number(order.total).toFixed(2)}</td>
-                    <td className="px-4 py-3 text-sm">
+                    <td className="px-4 py-3 text-sm space-x-2 flex items-center">
+                      {statusBadge(order.status)}
                       <select
                         value={order.status}
                         onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                        className="border rounded px-2 py-1"
+                        className="border rounded px-2 py-1 text-sm"
                       >
                         {statusOptions.map(opt => (
                           <option value={opt.value} key={opt.value}>{opt.label}</option>

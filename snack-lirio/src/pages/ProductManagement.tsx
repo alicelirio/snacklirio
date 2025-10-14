@@ -114,7 +114,7 @@ export default function ProductManagement() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+  <div className="container mx-auto px-4 py-8 max-w-5xl">
       <h1 className="text-2xl font-bold mb-6">Gerenciar Produtos</h1>
 
       {error && (
@@ -123,7 +123,7 @@ export default function ProductManagement() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-6 sm:px-8 pt-6 pb-8 mb-6">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Nome do Produto
@@ -191,7 +191,7 @@ export default function ProductManagement() {
 
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-4">Seus Produtos</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
             <div key={product.id} className="bg-white shadow-md rounded-lg p-4">
               {product.image && (

@@ -35,6 +35,14 @@ export default function Header() {
                 >
                   Produtos
                 </Link>
+                {user.type === 'fornecedor' && (
+                  <Link 
+                    to="/products/manage" 
+                    className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Vender
+                  </Link>
+                )}
                 {(user.type === 'admin' || user.type === 'fornecedor') && (
                   <Link 
                     to="/admin" 
