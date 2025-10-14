@@ -128,48 +128,81 @@ export function AdminPage() {
         {orders.length === 0 ? (
           <p className="text-gray-600">Nenhum pedido encontrado.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pedido</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-4 py-2"></th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {orders.map((order) => (
-                  <tr key={order.id}>
-                    <td className="px-4 py-3 text-sm text-gray-900">#{order.id.slice(0,8)}</td>
-                    <td className="px-4 py-3 text-sm text-gray-700">{order.user?.name || '-'}</td>
-                    <td className="px-4 py-3 text-sm text-gray-900">R$ {Number(order.total).toFixed(2)}</td>
-                    <td className="px-4 py-3 text-sm space-x-2 flex items-center">
-                      {statusBadge(order.status)}
-                      <select
-                        value={order.status}
-                        onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                        className="border rounded px-2 py-1 text-sm"
-                      >
-                        {statusOptions.map(opt => (
-                          <option value={opt.value} key={opt.value}>{opt.label}</option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="px-4 py-3 text-right text-sm">
-                      <button
-                        onClick={() => handleUpdateStatus(order.id, order.status)}
-                        className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700"
-                      >
-                        Atualizar
-                      </button>
-                    </td>
+          <>
+            {/* Tabela desktop */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pedido</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th className="px-4 py-2"></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {orders.map((order) => (
+                    <tr key={order.id}>
+                      <td className="px-4 py-3 text-sm text-gray-900">#{order.id.slice(0,8)}</td>
+                      <td className="px-4 py-3 text-sm text-gray-700">{order.user?.name || '-'}</td>
+                      <td className="px-4 py-3 text-sm text-gray-900">R$ {Number(order.total).toFixed(2)}</td>
+                      <td className="px-4 py-3 text-sm space-x-2 flex items-center">
+                        {statusBadge(order.status)}
+                        <select
+                          value={order.status}
+                          onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                          className="border rounded px-2 py-1 text-sm"
+                        >
+                          {statusOptions.map(opt => (
+                            <option value={opt.value} key={opt.value}>{opt.label}</option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className="px-4 py-3 text-right text-sm">
+                        <button
+                          onClick={() => handleUpdateStatus(order.id, order.status)}
+                          className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700"
+                        >
+                          Atualizar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {/* Cards mobile */}
+            <div className="md:hidden space-y-4">
+              {orders.map(order => (
+                <div key={order.id} className="border border-gray-200 rounded-lg p-4 space-y-2 bg-gray-50">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium text-gray-700">Pedido #{order.id.slice(0,8)}</span>
+                    {statusBadge(order.status)}
+                  </div>
+                  <p className="text-sm text-gray-600">Cliente: <span className="font-medium text-gray-800">{order.user?.name || '-'}</span></p>
+                  <p className="text-sm text-gray-600">Total: <span className="font-semibold">R$ {Number(order.total).toFixed(2)}</span></p>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                    <select
+                      value={order.status}
+                      onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                      className="border rounded px-3 py-2 text-sm bg-white"
+                    >
+                      {statusOptions.map(opt => (
+                        <option value={opt.value} key={opt.value}>{opt.label}</option>
+                      ))}
+                    </select>
+                    <button
+                      onClick={() => handleUpdateStatus(order.id, order.status)}
+                      className="w-full sm:w-auto bg-indigo-600 text-white px-3 py-2 rounded text-sm font-medium hover:bg-indigo-700"
+                    >
+                      Atualizar
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
       
@@ -182,7 +215,7 @@ export function AdminPage() {
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-48 object-cover rounded-lg mb-4"
+        className="w-full h-40 sm:h-48 object-cover rounded-lg mb-4"
               />
             )}
             <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
@@ -195,7 +228,7 @@ export function AdminPage() {
                 Fornecedor: {product.supplier.name}
               </p>
             )}
-            <div className="flex justify-end space-x-2">
+      <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2">
               <button
                 onClick={() => handleDelete(product.id)}
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"

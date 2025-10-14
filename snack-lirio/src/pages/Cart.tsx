@@ -37,11 +37,11 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Meu Carrinho</h1>
-        
+      <div className="max-w-5xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Meu Carrinho</h1>
+
         <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-          <div className="px-4 py-5 sm:p-6">
+          <div className="px-4 py-5 sm:p-6 space-y-4">
             {!user ? (
               <div className="text-center py-4">
                 <p className="text-gray-600">Faça login para ver seu carrinho</p>
@@ -61,17 +61,17 @@ export default function Cart() {
                 ) : (
                   <div className="space-y-4">
                     {items.map((item) => (
-                      <div key={item.id} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                      <div key={item.id} className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 p-4 bg-gray-50 rounded-lg space-y-3 sm:space-y-0">
                         {item.image && (
                           <img
                             src={item.image}
                             alt={item.name}
-                            className="w-16 h-16 object-cover rounded"
+                            className="w-20 h-20 object-cover rounded self-center sm:self-auto"
                           />
                         )}
-                        <div className="flex-1">
-                          <h3 className="text-lg font-medium">{item.name}</h3>
-                          <p className="text-gray-600">R$ {item.price.toFixed(2)}</p>
+                        <div className="flex-1 space-y-1">
+                          <h3 className="text-base sm:text-lg font-medium leading-tight">{item.name}</h3>
+                          <p className="text-sm sm:text-gray-600">R$ {item.price.toFixed(2)}</p>
                         </div>
                         <div className="flex items-center space-x-2">
                           <button
@@ -88,19 +88,21 @@ export default function Cart() {
                             +
                           </button>
                         </div>
-                        <button
-                          onClick={() => removeItem(item.id)}
-                          className="text-red-600 hover:text-red-800"
-                        >
-                          Remover
-                        </button>
+                        <div className="flex justify-end sm:block">
+                          <button
+                            onClick={() => removeItem(item.id)}
+                            className="text-red-600 hover:text-red-800 text-sm"
+                          >
+                            Remover
+                          </button>
+                        </div>
                       </div>
                     ))}
                     
                     <div className="mt-6 border-t border-gray-200 pt-4">
-                      <div className="flex justify-between text-base font-medium text-gray-900">
-                        <p>Subtotal</p>
-                        <p>R$ {total.toFixed(2)}</p>
+                      <div className="flex justify-between text-sm sm:text-base font-medium text-gray-900">
+                        <p>Total</p>
+                        <p className="font-semibold">R$ {total.toFixed(2)}</p>
                       </div>
                       <div className="mt-6">
                         <button
@@ -114,6 +116,7 @@ export default function Cart() {
                         >
                           {isLoading ? 'Processando...' : 'Finalizar Pedido'}
                         </button>
+                        <p className="text-xs text-gray-500 mt-2 text-center">Revise os itens antes de finalizar</p>
                       </div>
                     </div>
                   </div>
