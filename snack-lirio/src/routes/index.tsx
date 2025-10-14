@@ -24,8 +24,22 @@ export function AppRoutes() {
       <Route path="/profile/orders" element={<Orders />} />
       <Route path="/profile/orders/:orderId" element={<OrderDetails />} />
       <Route path="/products" element={<Products />} />
-      <Route path="/products/manage" element={<ProductManagement />} />
-      <Route path="/admin" element={<PrivateRoute allowedRoles={['ADMIN', 'SUPPLIER']}><AdminPage /></PrivateRoute>} />
+      <Route
+        path="/products/manage"
+        element={
+          <PrivateRoute allowedRoles={['fornecedor', 'admin']}>
+            <ProductManagement />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <PrivateRoute allowedRoles={['admin', 'fornecedor']}>
+            <AdminPage />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   )
 }
