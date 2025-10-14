@@ -54,7 +54,7 @@ app.post('/auth/register', async (req, res) => {
     });
 
     const token = jwt.sign(
-      { id: user.id },
+      { id: user.id, type: user.type },
       process.env.JWT_SECRET || 'secret',
       { expiresIn: '1d' }
     );
@@ -83,7 +83,7 @@ app.post('/auth/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id },
+      { id: user.id, type: user.type },
       process.env.JWT_SECRET || 'secret',
       { expiresIn: '1d' }
     );
