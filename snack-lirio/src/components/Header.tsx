@@ -14,7 +14,7 @@ export default function Header() {
         <Link to="/products" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">Produtos</Link>
       )}
       {user?.type === 'fornecedor' && (
-        <Link to="/products/manage" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">Vender</Link>
+        <Link to="/meus-produtos" className="block px-3 py-2 rounded-md text-sm font-medium text-indigo-600 hover:bg-indigo-50">Meus Produtos</Link>
       )}
       {(user?.type === 'admin' || user?.type === 'fornecedor') && (
         <Link to="/admin" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">Área Administrativa</Link>

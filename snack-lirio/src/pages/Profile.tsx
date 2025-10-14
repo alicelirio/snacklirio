@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,17 +6,8 @@ export default function Profile() {
   const { user, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    } else if (user.type === 'fornecedor') {
-      navigate('/dashboard/supplier');
-    } else if (user.type === 'admin') {
-      navigate('/dashboard/admin');
-    }
-  }, [user, navigate]);
-
   if (!user) {
+    navigate('/login');
     return null;
   }
 

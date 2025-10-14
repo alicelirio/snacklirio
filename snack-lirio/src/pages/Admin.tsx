@@ -245,3 +245,5 @@ export function AdminPage() {
     </div>
   );
 }
+
+export default Admin;
