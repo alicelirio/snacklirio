@@ -1,6 +1,7 @@
-import { Router } from 'express';
+import { Router, Request } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { authMiddleware } from '../middlewares/auth';
+import { upload } from '../utils/upload';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -38,16 +39,18 @@ router.get('/supplier', authMiddleware, async (req, res) => {
 });
 
 // Criar novo produto
-router.post('/', authMiddleware, async (req, res) => {
+// multipart/form-data with optional image file (field: image)
+router.post('/', authMiddleware, upload.single('image'), async (req: Request & { file?: any }, res) => {
   try {
-    const { name, description, price, image } = req.body;
+  const { name, description, price } = req.body;
+  const file = req.file;
 
     const product = await prisma.product.create({
       data: {
         name,
         description,
-        price,
-        image,
+    price: parseFloat(price),
+    image: file ? `/uploads/${file.filename}` : undefined,
         supplierId: req.userId!,
       },
     });
@@ -59,10 +62,11 @@ router.post('/', authMiddleware, async (req, res) => {
 });
 
 // Atualizar produto
-router.put('/:id', authMiddleware, async (req, res) => {
+router.put('/:id', authMiddleware, upload.single('image'), async (req: Request & { file?: any }, res) => {
   try {
     const { id } = req.params;
-    const { name, description, price, image } = req.body;
+  const { name, description, price } = req.body;
+  const file = req.file;
 
     const product = await prisma.product.findUnique({
       where: { id },
@@ -76,13 +80,13 @@ router.put('/:id', authMiddleware, async (req, res) => {
       return res.status(403).json({ error: 'Sem permissão para editar este produto' });
     }
 
-    const updatedProduct = await prisma.product.update({
+  const updatedProduct = await prisma.product.update({
       where: { id },
       data: {
         name,
         description,
-        price,
-        image,
+    price: parseFloat(price),
+    image: file ? `/uploads/${file.filename}` : undefined,
       },
     });
 

@@ -7,8 +7,8 @@ interface Product {
   name: string;
   description: string;
   price: number;
-  imageUrl: string;
-  supplier: string;
+  image?: string | null;
+  supplier?: { name: string };
 }
 
 export function AdminPage() {
@@ -22,10 +22,10 @@ export function AdminPage() {
   const loadProducts = async () => {
     try {
       let response;
-      if (user?.type === 'ADMIN') {
+      if (user?.type === 'admin') {
         response = await api.get('/products');
-      } else if (user?.type === 'SUPPLIER') {
-        response = await api.get(`/products/supplier/${user.id}`);
+      } else if (user?.type === 'fornecedor') {
+        response = await api.get(`/products/supplier`);
       }
       if (response?.data) {
         setProducts(response.data);
@@ -51,19 +51,23 @@ export function AdminPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
           <div key={product.id} className="bg-white rounded-lg shadow-md p-6">
-            <img
-              src={product.imageUrl}
-              alt={product.name}
-              className="w-full h-48 object-cover rounded-lg mb-4"
-            />
+            {product.image && (
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-48 object-cover rounded-lg mb-4"
+              />
+            )}
             <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
             <p className="text-gray-600 mb-2">{product.description}</p>
             <p className="text-lg font-bold mb-4">
               R$ {product.price.toFixed(2)}
             </p>
-            <p className="text-sm text-gray-500 mb-4">
-              Fornecedor: {product.supplier}
-            </p>
+            {product.supplier?.name && (
+              <p className="text-sm text-gray-500 mb-4">
+                Fornecedor: {product.supplier.name}
+              </p>
+            )}
             <div className="flex justify-end space-x-2">
               <button
                 onClick={() => handleDelete(product.id)}

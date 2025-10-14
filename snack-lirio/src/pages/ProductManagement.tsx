@@ -15,7 +15,8 @@ interface ProductFormData {
   name: string;
   description: string;
   price: string;
-  image?: string;
+  imageFile?: File | null;
+  imagePreview?: string;
 }
 
 export default function ProductManagement() {
@@ -24,13 +25,14 @@ export default function ProductManagement() {
   const [error, setError] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const { user } = useAuth();
+  useAuth();
   
-  const initialFormData = {
+  const initialFormData: ProductFormData = {
     name: '',
     description: '',
     price: '',
-    image: ''
+    imageFile: null,
+    imagePreview: ''
   };
   
   const [formData, setFormData] = useState<ProductFormData>(initialFormData);
@@ -55,15 +57,22 @@ export default function ProductManagement() {
     setError('');
     
     try {
-      const productData = {
-        ...formData,
-        price: parseFloat(formData.price)
-      };
+      const data = new FormData();
+      data.append('name', formData.name);
+      data.append('description', formData.description);
+      data.append('price', formData.price);
+      if (formData.imageFile) {
+        data.append('image', formData.imageFile);
+      }
 
       if (isEditing && selectedProduct) {
-        await api.put(`/products/${selectedProduct.id}`, productData);
+        await api.put(`/products/${selectedProduct.id}`, data, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
       } else {
-        await api.post('/products', productData);
+        await api.post('/products', data, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
       }
 
       setFormData(initialFormData);
@@ -90,12 +99,13 @@ export default function ProductManagement() {
 
   const handleEdit = (product: Product) => {
     setSelectedProduct(product);
-    setFormData({
-      name: product.name,
-      description: product.description,
-      price: product.price.toString(),
-      image: product.image || ''
-    });
+      setFormData({
+        name: product.name,
+        description: product.description,
+        price: product.price.toString(),
+        imageFile: null,
+        imagePreview: product.image || ''
+      });
     setIsEditing(true);
   };
 
@@ -155,14 +165,20 @@ export default function ProductManagement() {
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            URL da Imagem
+            Imagem do Produto
           </label>
           <input
-            type="url"
-            value={formData.image}
-            onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0] || null;
+              setFormData({ ...formData, imageFile: file, imagePreview: file ? URL.createObjectURL(file) : '' });
+            }}
+            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
           />
+          {(formData.imagePreview) && (
+            <img src={formData.imagePreview} alt="Pré-visualização" className="mt-2 h-32 object-cover rounded" />
+          )}
         </div>
 
         <button

@@ -35,7 +35,7 @@ export default function Header() {
                 >
                   Produtos
                 </Link>
-                {(user.type === 'ADMIN' || user.type === 'SUPPLIER') && (
+                {(user.type === 'admin' || user.type === 'fornecedor') && (
                   <Link 
                     to="/admin" 
                     className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"

@@ -20,6 +20,15 @@ app.use(cors({
 
 app.use(express.json());
 
+// Servir arquivos estáticos de uploads (imagens de produtos)
+import path from 'path';
+import fs from 'fs';
+const uploadsDir = path.resolve(__dirname, '..', 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+app.use('/uploads', express.static(uploadsDir));
+
 app.use('/products', productsRouter);
 app.use('/orders', ordersRouter);
 
