@@ -8,6 +8,13 @@ Um sistema completo de delivery inspirado no iFood, desenvolvido para facilitar 
 O Snack Lírio é um projeto de TCC desenvolvido no curso técnico em Informática (3º ano).
 Sistema completo de e-commerce com autenticação, gestão de produtos, carrinho de compras, pedidos e painel administrativo.
 
+## 🌐 Links do Projeto
+
+- 🚀 **App em Produção:** Em breve (Vercel)
+- 🔗 **API Backend:** Em breve (Render)
+- 📄 **Guia de Deploy:** [DEPLOY.md](./DEPLOY.md)
+- ✅ **Checklist Técnico:** [VERIFICACAO.md](./VERIFICACAO.md)
+
 ## 🛠️ Tecnologias Utilizadas
 
 ### Frontend
