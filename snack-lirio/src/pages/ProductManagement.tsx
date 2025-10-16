@@ -127,11 +127,16 @@ export default function ProductManagement() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-        <h1 className="text-2xl font-bold">Gerenciar Produtos</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-red-600 flex items-center gap-2">
+            📦 Gerenciar Produtos
+          </h1>
+          <p className="text-gray-600 mt-1">Adicione, edite ou remova produtos do catálogo</p>
+        </div>
         {!showForm && (
           <button
             onClick={() => setShowForm(true)}
-            className="bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-700 flex items-center gap-2 font-medium"
+            className="bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 flex items-center gap-2 font-medium shadow-md transition-all"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
@@ -214,7 +219,7 @@ export default function ProductManagement() {
           <div className="flex gap-3">
             <button
               type="submit"
-              className="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 font-medium"
+              className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 font-medium shadow-md transition-all"
             >
               {isEditing ? 'Atualizar Produto' : 'Adicionar Produto'}
             </button>
@@ -247,15 +252,15 @@ export default function ProductManagement() {
               <div className="mt-4 flex justify-end space-x-2">
                 <button
                   onClick={() => handleEdit(product)}
-                  className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"
+                  className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-medium transition-all"
                 >
-                  Editar
+                  ✏️ Editar
                 </button>
                 <button
                   onClick={() => handleDelete(product.id)}
-                  className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700"
+                  className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 font-medium transition-all"
                 >
-                  Excluir
+                  🗑️ Excluir
                 </button>
               </div>
             </div>

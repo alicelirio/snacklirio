@@ -18,8 +18,10 @@ export default function Header() {
           🔑 Painel Admin
         </Link>
       )}
-      {user?.type === 'fornecedor' && (
-        <Link to="/meus-produtos" className="block px-3 py-2 rounded-md text-sm font-medium text-indigo-600 hover:bg-indigo-50">🛠️ Vender</Link>
+      {(user?.type === 'admin' || user?.type === 'fornecedor') && (
+        <Link to="/meus-produtos" className="block px-3 py-2 rounded-md text-sm font-medium text-red-600 hover:bg-red-50 flex items-center gap-2">
+          � Gerenciar Produtos
+        </Link>
       )}
       {user && (
         <Link to="/cart" className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">Carrinho</Link>
