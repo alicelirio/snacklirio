@@ -20,7 +20,7 @@ export default function Header() {
       )}
       {(user?.type === 'admin' || user?.type === 'fornecedor') && (
         <Link to="/meus-produtos" className="block px-3 py-2 rounded-md text-sm font-medium text-red-600 hover:bg-red-50 flex items-center gap-2">
-          � Gerenciar Produtos
+          📦 Gerenciar Produtos
         </Link>
       )}
       {user && (

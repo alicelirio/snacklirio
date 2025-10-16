@@ -12,7 +12,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (name: string, email: string, password: string) => Promise<void>;
+  signUp: (name: string, email: string, password: string, type?: string) => Promise<void>;
   signOut: () => void;
   loading: boolean;
 }
@@ -59,12 +59,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const signUp = async (name: string, email: string, password: string) => {
+  const signUp = async (name: string, email: string, password: string, type?: string) => {
     try {
       const response = await api.post('/auth/register', {
         name,
         email,
         password,
+        type: type || 'cliente',
       });
 
       const { token, user } = response.data;

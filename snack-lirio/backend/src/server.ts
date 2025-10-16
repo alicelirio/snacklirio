@@ -40,7 +40,7 @@ app.use('/orders', ordersRouter);
 // Rota de registro
 app.post('/auth/register', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, type } = req.body;
 
     const userExists = await prisma.user.findUnique({ where: { email } });
     if (userExists) {
@@ -54,7 +54,7 @@ app.post('/auth/register', async (req, res) => {
         name,
         email,
         password: hashedPassword,
-        type: 'cliente'
+        type: type || 'cliente'
       },
     });
 

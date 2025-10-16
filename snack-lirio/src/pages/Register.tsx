@@ -45,7 +45,7 @@ export default function Register() {
     
     setLoading(true);
     try {
-      await signUp(name, email, password);
+      await signUp(name, email, password, userType);
       navigate('/login', { 
         state: { message: 'Cadastro realizado com sucesso! Faça login para continuar.' }
       });

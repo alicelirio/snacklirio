@@ -11,11 +11,7 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    host: true, // Necessário para o servidor ser acessível
-    strictPort: true,
-    watch: {
-      usePolling: true,
-      interval: 100
-    }
+    host: true,
+    strictPort: false,
   },
 })
