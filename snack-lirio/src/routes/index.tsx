@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import Layout from '../components/Layout'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
@@ -15,29 +16,43 @@ import { PrivateRoute } from '../components/PrivateRoute'
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/profile/orders" element={<Orders />} />
-      <Route path="/profile/orders/:orderId" element={<OrderDetails />} />
-      <Route path="/products" element={<Products />} />
+      <Route path="/" element={<Layout><Home /></Layout>} />
+      <Route path="/login" element={<Layout><Login /></Layout>} />
+      <Route path="/register" element={<Layout><Register /></Layout>} />
+      <Route path="/cart" element={<Layout><Cart /></Layout>} />
+      <Route path="/about" element={<Layout><About /></Layout>} />
+      <Route path="/profile" element={<Layout><Profile /></Layout>} />
+      <Route path="/profile/orders" element={<Layout><Orders /></Layout>} />
+      <Route path="/profile/orders/:orderId" element={<Layout><OrderDetails /></Layout>} />
+      <Route path="/products" element={<Layout><Products /></Layout>} />
       <Route
         path="/products/manage"
         element={
-          <PrivateRoute allowedRoles={['fornecedor', 'admin']}>
-            <ProductManagement />
-          </PrivateRoute>
+          <Layout>
+            <PrivateRoute allowedRoles={['fornecedor', 'admin']}>
+              <ProductManagement />
+            </PrivateRoute>
+          </Layout>
+        }
+      />
+      <Route
+        path="/meus-produtos"
+        element={
+          <Layout>
+            <PrivateRoute allowedRoles={['fornecedor', 'admin']}>
+              <ProductManagement />
+            </PrivateRoute>
+          </Layout>
         }
       />
       <Route
         path="/admin"
         element={
-          <PrivateRoute allowedRoles={['admin', 'fornecedor']}>
-            <AdminPage />
-          </PrivateRoute>
+          <Layout>
+            <PrivateRoute allowedRoles={['admin', 'fornecedor']}>
+              <AdminPage />
+            </PrivateRoute>
+          </Layout>
         }
       />
     </Routes>

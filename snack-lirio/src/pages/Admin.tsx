@@ -246,4 +246,4 @@ export function AdminPage() {
   );
 }
 
-export default Admin;
+export default AdminPage;
