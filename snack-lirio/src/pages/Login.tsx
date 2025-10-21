@@ -13,11 +13,23 @@ export default function Login() {
     e.preventDefault();
     setError('');
     
+    console.log('🔍 Tentando fazer login...');
+    console.log('Email:', email);
+    console.log('Senha:', password ? '******' : '(vazio)');
+    
+    if (!email || !password) {
+      setError('Por favor, preencha email e senha');
+      return;
+    }
+    
     try {
+      console.log('📡 Enviando requisição...');
       await signIn(email, password);
+      console.log('✅ Login bem-sucedido!');
       navigate('/');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Erro ao fazer login');
+      console.error('❌ Erro no login:', err);
+      setError(err.response?.data?.error || 'Erro ao fazer login');
     }
   };
 
