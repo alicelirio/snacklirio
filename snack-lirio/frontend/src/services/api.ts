@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// Forçando localhost durante desenvolvimento
-const baseURL = 'http://localhost:3000';
+// Usa variável de ambiente em produção (Vercel) e localhost como fallback
+const baseURL = (import.meta as any).env?.VITE_API_URL || 'http://localhost:3000';
 const api = axios.create({ baseURL });
 
 // Interceptor para adicionar o token em todas as requisições
