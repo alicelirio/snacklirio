@@ -7,5 +7,10 @@
     "strict": true,
     "skipLibCheck": true,
     "outDir": "./dist"
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "src/import { Request, Response } from 'expre.ts",
+    "src/import { Request, Response, NextFunction.ts"
+  ]
 }
