@@ -54,8 +54,6 @@ DATABASE_URL=mysql://lice-lirio_snack-lirio:SuaSenha@mysql-lice-lirio.alwaysdata
 
 JWT_SECRET=sua_chave_secreta_aqui_mude_isso_em_producao
 
-PORT=3000
-
 NODE_ENV=production
 
 CORS_ORIGIN=https://snacklirio.vercel.app
@@ -73,7 +71,7 @@ CORS_ORIGIN=https://snacklirio.vercel.app
 
 **Build Command:**
 ```bash
-npm install && npx prisma generate
+npm install && npm run build
 ```
 
 **Start Command:**
@@ -110,25 +108,20 @@ npm start
 
 ### 6️⃣ TESTAR A API (2 minutos)
 
-Abra no navegador a URL da sua API com `/health` no final:
+Abra no navegador a URL da sua API com `/products` no final (lista de produtos):
 
 ```
-https://sua-api.railway.app/health
+https://sua-api.railway.app/products
 ```
 
-**Se aparecer algo como:**
-```json
-{"status":"ok","timestamp":"..."}
-```
+Se aparecer um JSON (lista vazia ou com produtos), ✅ a API está no ar.
 
-✅ **Significa que está funcionando!**
+Você também pode testar o login via POST em `/auth/login` usando algum cliente (Insomnia/Postman):
 
-Se não tiver essa rota, teste:
 ```
-https://sua-api.railway.app/api/auth/test
+POST https://sua-api.railway.app/auth/login
+Body JSON: { "email": "admin@admin.com", "password": "admin123" }
 ```
-
-Ou simplesmente abra a URL base e veja se não dá erro 404 (é normal não ter conteúdo na rota raiz).
 
 ---
 
@@ -194,8 +187,6 @@ DATABASE_URL=mysql://lice-lirio_snack-lirio:SuaSenhaAqui@mysql-lice-lirio.always
 
 JWT_SECRET=snacklirio2024@secretkey@railway
 
-PORT=3000
-
 NODE_ENV=production
 
 CORS_ORIGIN=https://snacklirio.vercel.app
@@ -224,6 +215,10 @@ CORS_ORIGIN=https://snacklirio.vercel.app
 **Solução:**
 - Verificar se CORS_ORIGIN está correto no Railway
 - Adicionar a URL exata do Vercel (sem / no final)
+
+### "Aplicação subiu mas some ao reiniciar" (imagens)
+**Solução:**
+- A pasta `uploads/` no Railway é efêmera. Para produção, considere usar um storage externo (S3/Cloudinary). Para o TCC, funciona, mas as imagens podem sumir após novo deploy.
 
 ### "Cannot find module 'express'"
 **Solução:**
