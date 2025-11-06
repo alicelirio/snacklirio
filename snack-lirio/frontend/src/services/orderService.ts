@@ -3,6 +3,7 @@ import { CartItem } from '../contexts/CartContext';
 
 export interface Order {
   id: string;
+  userId: string;
   status: string;
   total: number;
   createdAt: string;
